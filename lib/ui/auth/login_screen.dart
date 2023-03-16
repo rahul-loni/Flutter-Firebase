@@ -46,6 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextFormField(
                       keyboardType: TextInputType.text,
                       controller: emailController,
+                      // ignore: prefer_const_constructors
                       decoration: InputDecoration(
                         helperText: 'enter email e.g => rahul@gmail.com',
                         hintText: 'Enter Email',
@@ -58,6 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         return null;
                       },
                     ),
+                    // ignore: prefer_const_constructors
                     SizedBox(
                       height: 16,
                     ),
@@ -65,6 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       keyboardType: TextInputType.text,
                       controller: passwordController,
                       obscureText: true,
+                      // ignore: prefer_const_constructors
                       decoration: InputDecoration(
                         hintText: 'Enter Password',
                         suffixIcon: Icon(Icons.lock),
@@ -79,6 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
               ),
+              // ignore: prefer_const_constructors
               SizedBox(
                 height: 20,
               ),

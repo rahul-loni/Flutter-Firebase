@@ -21,11 +21,16 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text(
-          "Splash Screen",
-          style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/flutter.png',
+            width: 300,
+            height: 260,
+          ),
+        ],
       ),
     );
   }
