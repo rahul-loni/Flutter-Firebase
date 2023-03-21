@@ -1,20 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_flutter/ui/auth/forgot_password_screen.dart';
+import 'package:firebase_flutter/ui/auth/login_screen.dart';
 import 'package:firebase_flutter/ui/auth/signup_screen.dart';
-import 'package:firebase_flutter/ui/home_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../../utils/utils.dart';
 import '../../widget/rounded_button.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   bool loading = false;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -30,39 +29,11 @@ class _LoginScreenState extends State<LoginScreen> {
     passwordController.dispose();
   }
 
-  void login() {
-    setState(() {
-      loading = true;
-    });
-    _auth
-        .signInWithEmailAndPassword(
-            email: emailController.text.toString(),
-            password: passwordController.text.toString())
-        .then((value) {
-      Utils().toastMessage(value.user!.email.toString());
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomeScreen(),
-        ),
-      );
-      setState(() {
-        loading = true;
-      });
-    }).onError((error, stackTrace) {
-      debugPrint(error.toString());
-      Utils().toastMessage(error.toString());
-      setState(() {
-        loading = true;
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Login Screen"),
+        title: Text("Signup Screen"),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -84,10 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: emailController,
                     // ignore: prefer_const_constructors
                     decoration: InputDecoration(
-                      helperText: 'Enter email e.g: rahul@gmail.com',
-                      helperStyle: TextStyle(
-                        decoration: TextDecoration.underline,
-                      ),
+                      helperText: 'enter email e.g => rahul@gmail.com',
                       hintText: 'Enter Email',
                       prefixIcon: Icon(Icons.email_rounded),
                     ),
@@ -126,69 +94,36 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 20,
             ),
             RoundedButton(
-              title: 'Sign In',
               loading: loading,
+              title: 'Sign Up ',
               onTap: () {
                 if (_formKey.currentState!.validate()) {
-                  login();
+                  _auth.createUserWithEmailAndPassword(
+                    email: emailController.text.toString(),
+                    password: passwordController.text.toString(),
+                  );
                 }
               },
             ),
             SizedBox(
               height: 12,
             ),
-            SizedBox(
-              height: 40,
-              child: TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ForgotPasswordScreen(),
-                    ),
-                  );
-                },
-                child: Text(
-                  "Forgot Password",
-                  style: TextStyle(
-                    fontSize: 22,
-                  ),
-                ),
-              ),
-              // child: InkWell(
-              //   onTap: () {
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //         builder: (context) => const ForgotPasswordScreen(),
-              //       ),
-              //     );
-              //   },
-              //   child: Text(
-              //     "Forgot Password",
-              //     style: TextStyle(
-              //       fontSize: 22,
-              //       color: Colors.red,
-              //     ),
-              //   ),
-              // ),
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text("Don't have an account?"),
+                Text(" you have an account?"),
                 TextButton(
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => SignupScreen(),
+                          builder: (context) => LoginScreen(),
                         ),
                       );
                     },
                     child: Text(
-                      'Sign Up',
+                      'Sign In',
                       style: TextStyle(fontSize: 16),
                     ))
               ],

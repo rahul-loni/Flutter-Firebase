@@ -4,11 +4,12 @@ import 'package:firebase_flutter/ui/home_screen.dart';
 import 'package:firebase_flutter/ui/splash_screen.dart';
 import 'package:flutter/material.dart';
 
-void main() async{
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -18,11 +19,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-
         primarySwatch: Colors.blue,
       ),
       home: SplashScreen(),
     );
   }
 }
-
