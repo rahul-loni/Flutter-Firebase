@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_flutter/ui/auth/forgot_password_screen.dart';
+import 'package:firebase_flutter/ui/auth/login_with_phone_number.dart';
 import 'package:firebase_flutter/ui/auth/signup_screen.dart';
 import 'package:firebase_flutter/ui/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -76,8 +77,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Image.asset(
                     'assets/loginn.png',
-                    width: 250,
-                    height: 200,
+                    width: 200,
+                    height: 160,
                   ),
                   TextFormField(
                     keyboardType: TextInputType.text,
@@ -135,10 +136,10 @@ class _LoginScreenState extends State<LoginScreen> {
               },
             ),
             SizedBox(
-              height: 12,
+              height: 10,
             ),
             SizedBox(
-              height: 40,
+              height: 35,
               child: TextButton(
                 onPressed: () {
                   Navigator.push(
@@ -151,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Text(
                   "Forgot Password",
                   style: TextStyle(
-                    fontSize: 22,
+                    fontSize: 16,
                   ),
                 ),
               ),
@@ -192,6 +193,25 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: TextStyle(fontSize: 16),
                     ))
               ],
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginWithPhoneNumber(),
+                  ),
+                );
+              },
+              child: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    border: Border.all(color: Colors.amber)),
+                child: Center(
+                  child: Text("Login with Phone Number "),
+                ),
+              ),
             )
           ],
         ),
