@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_flutter/post/add_post.dart';
 import 'package:firebase_flutter/ui/auth/login_screen.dart';
 import 'package:firebase_flutter/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black,
         title: Text("Firebase App"),
         actions: [
           IconButton(
@@ -42,6 +44,18 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Center(
         child: Text("Home Screen"),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add_rounded),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddPostScreen(),
+            ),
+          );
+        },
+        backgroundColor: Colors.black,
       ),
     );
   }
