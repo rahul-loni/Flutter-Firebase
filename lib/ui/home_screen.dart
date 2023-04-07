@@ -17,12 +17,14 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final auth = FirebaseAuth.instance;
   final ref = FirebaseDatabase.instance.ref("Post");
+  final searchTextFilter = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.black,
-        title: Text("Firebase App"),
+        title: Center(child: Text("Firebase App")),
         actions: [
           IconButton(
             onPressed: () {
@@ -48,43 +50,71 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Column(
         children: [
-          Expanded(
-              child: StreamBuilder(
-            stream: ref.onValue,
-            builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
-              if (!snapshot.hasData) {
-                return CircularProgressIndicator();
-              } else {
-                Map<dynamic, dynamic> map =
-                    snapshot.data!.snapshot.value as dynamic;
-                List<dynamic> list = [];
-                list.clear();
-                list = map.values.toList();
-                return ListView.builder(
-                  itemCount: snapshot.data!.snapshot.children.length,
-                  itemBuilder: (
-                    context,
-                    index,
-                  ) {
-                    return ListTile(
-                      title: Text(list[index]['title']),
-                    );
-                  },
-                );
-              }
-            },
-          )),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: TextFormField(
+              controller: searchTextFilter,
+              decoration: InputDecoration(
+                hintText: 'Search',
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(25.0))),
+              ),
+              onChanged: (String value) {
+                setState(() {});
+              },
+            ),
+          ),
           // Expanded(
-          //   child: FirebaseAnimatedList(
-          //     query: ref,
-          //     itemBuilder: (context, snapshot, animation, index) {
-          //       return ListTile(
-          //         title: Text(snapshot.child("title").value.toString()),
-          //         subtitle: Text(snapshot.child('id').value.toString()),
-          //       );
+          //   child: StreamBuilder(
+          //     stream: ref.onValue,
+          //     builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
+          //       if (!snapshot.hasData) {
+          //         return CircularProgressIndicator();
+          //       } else {
+          //         Map<dynamic, dynamic> map =
+          //             snapshot.data!.snapshot.value as dynamic;
+          //         List<dynamic> list = [];
+          //         list.clear();
+          //         list = map.values.toList();
+          //         return ListView.builder(
+          //           itemCount: snapshot.data!.snapshot.children.length,
+          //           itemBuilder: (
+          //             context,
+          //             index,
+          //           ) {
+          //             return ListTile(
+          //               title: Text(list[index]['title']),
+          //             );
+          //           },
+          //         );
+          //       }
           //     },
           //   ),
           // ),
+          Expanded(
+            child: FirebaseAnimatedList(
+              query: ref,
+              itemBuilder: (context, snapshot, animation, index) {
+                final title = snapshot.child("title").value.toString();
+                if (searchTextFilter.text.isEmpty) {
+                  return ListTile(
+                    title: Text(snapshot.child("title").value.toString()),
+                    subtitle: Text(snapshot.child('id').value.toString()),
+                  );
+                } else if (title.toLowerCase().contains(
+                      searchTextFilter.text.toLowerCase().toString(),
+                    )) {
+                  return ListTile(
+                    title: Text(snapshot.child("title").value.toString()),
+                    subtitle: Text(snapshot.child('id').value.toString()),
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
