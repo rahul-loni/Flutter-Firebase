@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_flutter/ui/auth/login_screen.dart';
 import 'package:firebase_flutter/ui/home_screen.dart';
+import 'package:firebase_flutter/ui/upload_image.dart';
 import 'package:flutter/material.dart';
 
 class SplashServices {
@@ -17,7 +18,7 @@ class SplashServices {
         () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => HomeScreen(),
+            builder: (context) => UploadImage(),
           ),
         ),
       );

@@ -121,10 +121,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         PopupMenuItem(
                           value: 1,
                           child: ListTile(
-                            // onTap: () {
-                            //   Navigator.pop(context);
-                            //   myShowDialog();
-                            // },
+                            onTap: () {
+                              Navigator.pop(context);
+                              ref
+                                  .child(snapshot.child('id').value.toString())
+                                  .remove();
+                            },
                             leading: Icon(Icons.delete),
                             title: Text("Delete"),
                           ),
@@ -182,6 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             actions: [
               TextButton(
+                //Cancel Data method
                 onPressed: () {
                   Navigator.pop(context);
                 },
@@ -190,6 +193,8 @@ class _HomeScreenState extends State<HomeScreen> {
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
+
+                  //Update Data Method
                   ref
                       .child(id)
                       .update({
