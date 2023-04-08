@@ -18,6 +18,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final auth = FirebaseAuth.instance;
   final ref = FirebaseDatabase.instance.ref("Post");
   final searchTextFilter = TextEditingController();
+  final editController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,6 +103,34 @@ class _HomeScreenState extends State<HomeScreen> {
                   return ListTile(
                     title: Text(snapshot.child("title").value.toString()),
                     subtitle: Text(snapshot.child('id').value.toString()),
+                    trailing: PopupMenuButton(
+                      icon: Icon(Icons.more_vert),
+                      itemBuilder: (context) => [
+                        PopupMenuItem(
+                          value: 1,
+                          child: ListTile(
+                            onTap: () {
+                              Navigator.pop(context);
+                              myShowDialog(
+                                  title, snapshot.child('id').value.toString());
+                            },
+                            leading: Icon(Icons.edit),
+                            title: Text("Edit"),
+                          ),
+                        ),
+                        PopupMenuItem(
+                          value: 1,
+                          child: ListTile(
+                            // onTap: () {
+                            //   Navigator.pop(context);
+                            //   myShowDialog();
+                            // },
+                            leading: Icon(Icons.delete),
+                            title: Text("Delete"),
+                          ),
+                        ),
+                      ],
+                    ),
                   );
                 } else if (title.toLowerCase().contains(
                       searchTextFilter.text.toLowerCase().toString(),
@@ -130,5 +160,51 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.black,
       ),
     );
+  }
+
+  Future<void> myShowDialog(String title, String id) async {
+    editController.text = title;
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              "Update ",
+              style: TextStyle(color: Colors.black),
+            ),
+            content: Container(
+              child: TextField(
+                controller: editController,
+                decoration: InputDecoration(
+                  hintText: 'Type here',
+                ),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Cencel"),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  ref
+                      .child(id)
+                      .update({
+                        'title': editController.text.toLowerCase(),
+                      })
+                      .then((value) => {
+                            Utils().toastMessage("Post Update"),
+                          })
+                      .onError((error, stackTrace) =>
+                          {Utils().toastMessage(error.toString())});
+                },
+                child: Text("Update"),
+              ),
+            ],
+          );
+        });
   }
 }
